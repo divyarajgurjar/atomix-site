@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Industrial Minimalist | First Principles</title>
+    <style>
+        /* =========================================
+           1. CSS VARIABLES (THEME CONFIGURATION)
+           ========================================= */
+        :root {
+            --bg-color: #0f172a;       /* Deep slate background */
+            --text-body: #a1a1aa;      /* Zinc-400 text */
+            --text-heading: #ffffff;   /* Pure white headings */
+            --accent: #3b82f6;         /* Subtle blue for primary actions */
+            --border-color: #1e293b;   /* Subtle slate borders */
+            
+            /* Constraints */
+            --container-width: 1024px;
+            --grid-gap: 24px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+        }
+
+        /* =========================================
+           2. GLOBAL RESET & BASE TYPOGRAPHY
+           ========================================= */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            background-color: var(--bg-color);
+            color: var(--text-body);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4 {
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.02em; /* Negative tracking for locked-in feel */
+        }
+
+        a {
+            color: var(--text-body);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            color: var(--text-heading);
+        }
+
+        /* Layout Container */
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* =========================================
+           3. NAVIGATION (STICKY & GLASSMORPHISM)
+           ========================================= */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 72px;
+        }
+
+        .logo {
+            font-weight: 700;
+            color: var(--text-heading);
+            font-size: 1.25rem;
+            letter-spacing: -0.05em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            font-size: 0.875rem;
+        }
+
+        /* =========================================
+           4. HERO SECTION
+           ========================================= */
+        .hero {
+            padding: 120px 0 80px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 24px;
+            max-width: 800px;
+            margin-inline: auto;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--accent);
+            color: var(--text-heading);
+            padding: 12px 28px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.39), 
+                        inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px 0 rgba(59, 130, 246, 0.5), 
+                        inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+            color: var(--text-heading);
+        }
+
+        /* =========================================
+           5. FEATURES (BENTO BOX GRID)
+           ========================================= */
+        .features {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            margin-bottom: 48px;
+            font-size: 1.5rem;
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--grid-gap);
+        }
+
+        .card {
+            background-color: rgba(30, 41, 59, 0.4);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 32px;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.02); /* Inner glow trick */
+        }
+
+        .card:hover {
+            transform: scale(1.02);
+            border-color: rgba(59, 130, 246, 0.5); /* Subtle accent border on hover */
+        }
+
+        .card h3 {
+            font-size: 1.125rem;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            font-size: 0.95rem;
+        }
+
+        /* Make the first card span 2 columns for the "Bento" feel */
+        .card:nth-child(1) {
+            grid-column: span 2;
+        }
+
+        /* =========================================
+           6. SHOWCASE SECTION
+           ========================================= */
+        .showcase {
+            padding: 80px 0 120px;
+        }
+
+        .showcase-panel {
+            background-color: rgba(30, 41, 59, 0.2);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.02);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .showcase-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0.5;
+        }
+
+        /* =========================================
+           7. FOOTER
+           ========================================= */
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 48px 0;
+            text-align: center;
+            opacity: 0.6;
+            font-size: 0.875rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 16px;
+        }
+
+        /* =========================================
+           8. MOBILE RESPONSIVENESS
+           ========================================= */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 80px 0 40px;
+            }
+
+            .bento-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card:nth-child(1) {
+                grid-column: span 1;
+            }
+
+            .nav-links {
+                display: none; /* Simplistic mobile: hide links, could add a hamburger here */
+            }
+
+            .showcase-panel {
+                height: 250px;
+                padding: 24px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container nav-inner">
+            <div class="logo">Atomix.</div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#showcase">Showcase</a>
+                <a href="#">Docs</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="hero">
+            <h1>Design Systems from First Principles.</h1>
+            <p>A functional, minimalist approach to web architecture. Zero bloat, maximum performance, and beautifully constrained.</p>
+            <a href="#features" class="cta-button">Deploy Engine</a>
+        </section>
+
+        <section id="features" class="features">
+            <h2 class="section-title">Core Architecture</h2>
+            <div class="bento-grid">
+                
+                <div class="card">
+                    <h3>Zero Dependencies</h3>
+                    <p>Built exclusively with raw HTML5 and standard CSS3. No JavaScript frameworks, no external libraries, and absolutely zero runtime overhead to slow down your users.</p>
+                </div>
+
+                <div class="card">
+                    <h3>Semantic Structure</h3>
+                    <p>Perfectly accessible and incredibly easy for search engines to parse. Readability first.</p>
+                </div>
+
+                <div class="card">
+                    <h3>8px Geometric Grid</h3>
+                    <p>Every margin, padding, and layout decision strictly adheres to a mathematical scale to ensure perfect visual harmony.</p>
+                </div>
+
+                <div class="card">
+                    <h3>Stripe-Level Elevation</h3>
+                    <p>Utilizing inner glows and layered low-opacity shadows to create depth on a 2D plane without looking messy.</p>
+                </div>
+
+                <div class="card">
+                    <h3>Fluid Responsive</h3>
+                    <p>Scales effortlessly from a 6.7" mobile device up to a 32" ultra-wide professional display.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="showcase" class="showcase">
+            <h2 class="section-title">Performance Metrics</h2>
+            <div class="showcase-panel">
+                <h3 style="font-size: 3rem; margin-bottom: 8px; color: var(--accent);">99.9</h3>
+                <p>Lighthouse Performance Score</p>
+                <p style="font-size: 0.8rem; margin-top: 16px; opacity: 0.7;">Time to Interactive: &lt; 100ms</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Atomix Architecture. Built in Public.</p>
+            <div class="footer-links">
+                <a href="#">X (Twitter)</a>
+                <a href="#">GitHub</a>
+                <a href="#">Hashnode</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
